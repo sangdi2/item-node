@@ -1,8 +1,11 @@
+const db =require('../db/index')
+const bcryptjs =require('bcryptjs')
+const jwt =require('jsonwebtoken')
 exports.register=function(req,res){
     const userinfo =req.body
-    const db =require('../db/index')
+    
     const mysql='select * from users where username=?'
-    const bcryptjs =require('bcryptjs')
+    
     const update ='insert into users set ?'
     if(!userinfo.username||!userinfo.password)
     {
@@ -30,5 +33,35 @@ exports.register=function(req,res){
 }
 
 exports.login=function(req,res){
-    res.send('登录成功')
+    const userinfo =req.body
+    const sqll='select * from users where username=?'
+    
+    if(!userinfo.username||!userinfo.password)
+    {
+        return res.cc('用户名或密码不允许为空!')
+    }
+    db.query(sqll,userinfo.username,function(err,results){
+        if(err){
+            return res.cc(err)
+        }
+        if(results.length!=1){
+            return res.cc('登录失败！')
+
+        }
+       const comparepwd= bcryptjs.compareSync(userinfo.password,results[0].password)
+       if(!comparepwd){
+           return res.cc('密码不正确')
+
+       }
+       const user={...results[0],password:'',user_pic:''}
+       const config =require('../config')
+       const tokenstr =jwt.sign(user,config.jwtsecretkey,{expiresIn:'10h'})
+       res.send({
+           status:1,
+           message:'登陆成功',
+           token:'Bearer'+tokenstr
+       })
+    })
+
+   
 }
