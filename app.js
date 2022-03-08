@@ -36,6 +36,10 @@ const getuserinformation =require('./router/userinfo')
 
 app.use('/my',getuserinformation)
 
+const vertical =require('./router/vertical')
+
+app.use('/vertical',vertical)
+
 // 错误中间件
 app.use(function (err, req, res, next) {
     // 省略其它代码...

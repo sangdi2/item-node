@@ -14,4 +14,6 @@ router.post('/updateuserinformation',gui.updateuserinformation)
 
 router.post('/updatepwd',gui.updatepwd)
 
+router.post('/update/avatar',gui.updateuserpic)
+
 module.exports=router

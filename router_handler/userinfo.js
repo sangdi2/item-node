@@ -68,3 +68,19 @@ exports.updatepwd=function(req,res){
     })
    
 }
+const userpic ='update users set user_pic=? where id=?'
+exports.updateuserpic=function(req,res){
+    db.query(userpic,[req.body.user_pic,req.body.id],function(err,results){
+        if(err)
+        {
+            return res.cc(err)
+        }
+        if(results.affectedRows !== 1){
+            return res.cc('修改用户头像信息失败')
+        }
+        res.send({
+            status:1,
+            message:'修改用户头像信息成功'
+        })
+    })
+}
