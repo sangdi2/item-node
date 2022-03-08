@@ -15,9 +15,9 @@ app.use(function(req,res,next){
         res.send({
             status,
             message:err instanceof Error?err.message:err
-        }
+        })
+        
     }
-
     //
     next()
 })
@@ -31,6 +31,10 @@ app.use(expressjwt({secret:config.jwtsecretkey,algorithms:['HS256']}).unless({pa
 const rt =require('./router/user')
 
 app.use('/api',rt)
+
+const getuserinformation =require('./router/userinfo')
+
+app.use('/my',getuserinformation)
 
 // 错误中间件
 app.use(function (err, req, res, next) {

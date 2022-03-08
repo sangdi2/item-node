@@ -59,7 +59,7 @@ exports.login=function(req,res){
        res.send({
            status:1,
            message:'登陆成功',
-           token:'Bearer'+tokenstr
+           token:'Bearer '+tokenstr
        })
     })
 
