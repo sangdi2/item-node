@@ -38,7 +38,13 @@ app.use('/my',getuserinformation)
 
 const vertical =require('./router/vertical')
 
-app.use('/vertical',vertical)
+app.use('/my/vertical',vertical)
+
+const ar =require('./router/artical')
+
+app.use('/my/add',ar)
+// 托管静态资源文件
+app.use('/uploads', express.static('./uploads'))
 
 // 错误中间件
 app.use(function (err, req, res, next) {
